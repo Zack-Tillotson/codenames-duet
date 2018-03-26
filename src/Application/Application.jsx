@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import { Route } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 import Page from '../components/Page';
 import Homepage from '../components/Homepage';
@@ -19,17 +19,18 @@ class Application extends React.Component {
 
   componentDidMount() {
     this.props.monitorConnection();
-    this.props.syncData('/');
+    this.props.syncData('cards');
+    this.props.syncData('game');
   }
 
   render() {
     return (
-      <BrowserRouter>
+      <MemoryRouter>
         <Page>
           <Route path="" exact component={Homepage} />
           <Route path="/preferences/" exact component={Preferences} />
         </Page>
-      </BrowserRouter>
+      </MemoryRouter>
     );
   }
 }

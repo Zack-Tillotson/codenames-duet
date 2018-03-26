@@ -14,6 +14,14 @@ function syncData(path) {
   return {type: actionTypes.syncData, payload: {path}};
 }
 
+function putData(path, data) {
+  return {type: actionTypes.putData, payload: {path, data}};
+}
+
+function setData(path, data) {
+  return {type: actionTypes.setData, payload: {path, data}};
+}
+
 function requestAuth(service) {
   return {type: actionTypes.requestAuth, payload: {service}};
 }
@@ -26,6 +34,8 @@ export default {
   dataReceived,
   syncConnection,
   syncData,
+  putData,
+  setData,
   requestAuth,
   requestUnauth,
 }

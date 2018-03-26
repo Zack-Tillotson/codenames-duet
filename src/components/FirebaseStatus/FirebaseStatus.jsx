@@ -24,10 +24,6 @@ const FirebaseStatus = function(props) {
           <td>Authentication Provider</td>
           <td>{props.authProvider}</td>
         </tr>
-        <tr>
-          <td>Data</td>
-          <td>{props.data}</td>
-        </tr>
       </tbody>
     </table>
   );

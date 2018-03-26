@@ -62,9 +62,23 @@ function syncData(onData, path = '/') {
   return ref;
 }
 
+function putData(path = '/', data) {
+  const ref = utils.connect(path);
+  const key = ref.push().key;
+  ref.child(key).set(data);
+  return key;
+}
+
+function setData(path = '/', data) {
+  const ref = utils.connect(path);
+  return ref.set(data);
+}
+
 export default {
   requestAuth,
   requestUnauth,
   syncConnection,
   syncData,
+  putData,
+  setData,
 }

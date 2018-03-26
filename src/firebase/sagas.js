@@ -32,6 +32,14 @@ function* handleSyncingData() {
       yield dispatchData(data);
     }
   });
+  yield takeEvery(actionTypes.setData, function*(action) {
+    const {path, data} = action.payload;
+    return firebase.setData(path, data);
+  });
+  yield takeEvery(actionTypes.putData, function*(action) {
+    const {path, data} = action.payload;
+    return firebase.putData(path, data);
+  });
 }
 
 function* handleLogin() {
