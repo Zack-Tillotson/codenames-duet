@@ -1,0 +1,43 @@
+.history {
+  flex: 1;
+  display: inline-block;
+  margin: .5rem;
+  font-size: .75rem;
+  background: white;
+  border: solid 1px black;
+  padding: .5rem;
+
+  .card-totals {
+    display: flex;
+    border-bottom: solid 2px #666;
+
+    li {
+      flex: 1;
+
+      &.card-total__count--spy {
+        color: green;
+      }
+
+      &.card-total__count--asn {
+        color: black;
+      }
+
+      &.card-total__count--bys {
+        color: orange;
+      }
+    }
+  }
+
+  .turns {
+    display: grid;
+    height: calc(100% - .5rem);
+    text-align: left;
+    vertical-align: middle;
+  }
+
+
+
+  @media(min-width: 38rem) {
+    max-width: 25%;
+  }
+}

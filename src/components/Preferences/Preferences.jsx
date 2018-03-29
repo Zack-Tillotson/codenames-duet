@@ -8,7 +8,7 @@ import './styles';
 function Preferences() {
   return (
     <div>
-      <LoginForm />
+      <LoginForm isHiddenOnAuth />
       <FirebaseStatus />
     </div>
   );

@@ -8,9 +8,7 @@ export default function Header({preferencesOpen}) {
     <header>
       <Link to="/">
         <h1>
-          <div className="imageContainer">
-            <img src="/assets/logo.png" alt="Codenames Duet" />
-          </div>
+          Codenames Duet
         </h1>
       </Link>
       {preferencesOpen && (

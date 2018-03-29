@@ -27,7 +27,7 @@ class Application extends React.Component {
     return (
       <MemoryRouter>
         <Page>
-          <Route path="" exact component={Homepage} />
+          <Route path="/" exact component={Homepage} />
           <Route path="/preferences/" exact component={Preferences} />
         </Page>
       </MemoryRouter>

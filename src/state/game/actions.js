@@ -1,18 +1,42 @@
 import types from './actionTypes';
 
-function createGame() {
+function updateClueWord(word) {
   return {
-    type: types.createGame,
+    type: types.updateClueWord,
+    payload: {
+      word,
+    },
   };
 }
 
-function joinGame() {
+function updateClueNum(num) {
   return {
-    type: types.joinGame,
+    type: types.updateClueNum,
+    payload: {
+      num,
+    },
+  };
+}
+
+function resetClues(num) {
+  return {
+    type: types.resetClues,
+  };
+}
+
+function submitClue(word, num) {
+  return {
+    type: types.submitClue,
+    payload: {
+      word,
+      num,
+    },
   };
 }
 
 export default {
-  createGame,
-  joinGame,
+  updateClueWord,
+  updateClueNum,
+  resetClues,
+  submitClue,
 }

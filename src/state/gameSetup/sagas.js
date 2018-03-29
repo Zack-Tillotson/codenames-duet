@@ -4,6 +4,7 @@ import selector from './selector'
 import authSelector from 'firebase/authSelector';
 
 import types from './actionTypes';
+import {eventTypes} from '../constants';
 
 import firebase from '../../firebase/actions';
 import firebaseRef from 'firebase';
@@ -40,10 +41,10 @@ function* getPlayerId() {
 function* doCreateGame(action) {
   const playerId = yield getPlayerId();
 
-  yield put(firebase.setData('game', {}));
-  yield put(firebase.putData('game/actions', {
+  yield put(firebase.setData('game', []));
+  yield put(firebase.putData('game', {
     playerId,
-    action: 'joinTeam',
+    type: eventTypes.joinTeam,
     value: 0,
     when: firebaseRef.database.ServerValue.TIMESTAMP,
   }));
@@ -52,9 +53,9 @@ function* doCreateGame(action) {
 function* doJoinGame(action) {
   const playerId = yield getPlayerId();
 
-  yield put(firebase.putData('game/actions', {
+  yield put(firebase.putData('game', {
     playerId,
-    action: 'joinTeam',
+    type: eventTypes.joinTeam,
     value: 1,
     when: firebaseRef.database.ServerValue.TIMESTAMP,
   }));
@@ -66,9 +67,9 @@ function* doStartGame(action) {
   const team1Map = yield getRandomGameMap();
   const team2Map = yield getRandomGameMap();
 
-  yield put(firebase.putData('game/actions', {
+  yield put(firebase.putData('game', {
     playerId,
-    action: 'startGame',
+    type: eventTypes.startGame,
     value: {cards, team1Map, team2Map},
     when: firebaseRef.database.ServerValue.TIMESTAMP,
   }));
