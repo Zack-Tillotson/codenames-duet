@@ -8,7 +8,7 @@ const eventTypes = {
   // game
   giveClue: 'giveClue',
   endGuess: 'endGuess',
-  guessCard: 'guessCard',
+  guessWord: 'guessWord',
 
 };
 

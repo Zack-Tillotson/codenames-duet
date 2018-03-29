@@ -18,14 +18,14 @@ const defaultState = {
 const controls = gameDataReceived(function(state = defaultState, actions, playerId) {
 
   const reverseActions = [...actions].reverse();
-  const lastPhaseChange = getActionOfType(reverseActions, eventTypes.giveClue, eventTypes.endGuess, eventTypes.startGame, eventTypes.guessCard);
+  const lastPhaseChange = getActionOfType(reverseActions, eventTypes.giveClue, eventTypes.endGuess, eventTypes.startGame, eventTypes.guessWord);
 
   if(!lastPhaseChange) {
     return state;
   }
 
   // No change if found a spy
-  if(lastPhaseChange.type === eventTypes.guessCard && lastPhaseChange.cardType === 0) {
+  if(lastPhaseChange.type === eventTypes.guessWord && lastPhaseChange.cardType === 0) {
     return state;
   }
 
@@ -34,7 +34,7 @@ const controls = gameDataReceived(function(state = defaultState, actions, player
     phase = playerId === lastPhaseChange.playerId ? phases.themGuessing : phases.guessing;
   } else if(lastPhaseChange.type === eventTypes.endGuess) {
     phase = playerId === lastPhaseChange.playerId ? phases.clueing : phases.themClueing;
-  } else if(lastPhaseChange.type === eventTypes.guessCard) { // Was incorrect
+  } else if(lastPhaseChange.type === eventTypes.guessWord) { // Was incorrect
     phase = playerId === lastPhaseChange.playerId ? phases.clueing : phases.themClueing;
   }
 

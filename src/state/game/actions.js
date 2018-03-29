@@ -34,9 +34,19 @@ function submitClue(word, num) {
   };
 }
 
+function guessWord(word) {
+  return {
+    type: types.guessWord,
+    payload: {
+      word,
+    },
+  };
+}
+
 export default {
   updateClueWord,
   updateClueNum,
   resetClues,
   submitClue,
+  guessWord,
 }

@@ -17,8 +17,11 @@ const Controls = function({children, ui: {clueWord: uiClueWord, clueNum: uiClueN
   };
   return (
     <div className="controls">
+      {phase === 'guessing' && (
+        <span>Guess, their clue: {clueWord} - {clueNum}</span>
+      )}
       {phase === 'guessing' || phase === 'themGuessing' && (
-        <span>Clue: {clueWord} - {clueNum}</span>
+        <span>They are guessing, your clue: {clueWord} - {clueNum}</span>
       )}
       {phase === 'clueing' && (
         <span>Clue: <input type="text" value={uiClueWord} onChange={handleClueWordChange} /> - <input type="number" value={uiClueNum} onChange={handleClueNumberChange} /><button onClick={handleSubmit} disabled={uiClueNum < 0 || !uiClueWord}>Submit</button></span>

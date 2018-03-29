@@ -10,4 +10,7 @@ export default dispatch => ({
   submitClue(word, num) {
     dispatch(actions.submitClue(word, num));
   },
+  guessWord(word) {
+    dispatch(actions.guessWord(word));
+  },
 });

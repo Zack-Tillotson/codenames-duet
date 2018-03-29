@@ -5,6 +5,7 @@ import {eventTypes} from '../constants';
 
 import history from './reducers/history';
 import controls from './reducers/controls';
+import teams from './reducers/teams';
 
 // Helpers /////////
 
@@ -73,4 +74,5 @@ export default combineReducers({
   history,
   controls,
   ui,
+  teams,
 });

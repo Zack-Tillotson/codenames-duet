@@ -5,11 +5,12 @@ import dispatcher from 'state/game/dispatcher';
 
 import './styles';
 
-const Cards = function({children, cards}) {
+const Cards = function({children, cards, guessWord}) {
+  const handleClick = card => guessWord(card);
   return (
     <ul className="cards">
       {cards.map(card => (
-        <li key={card}>
+        <li key={card} onClick={handleClick.bind(this, card)}>
           {card}
         </li>
       ))}

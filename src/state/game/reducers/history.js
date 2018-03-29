@@ -43,12 +43,12 @@ const controls = gameDataReceived(function(state = defaultState, actions, player
         break;
       }
 
-      case eventTypes.guessCard: { // Might end round
+      case eventTypes.guessWord: { // Might end round
         const activeTurn = nextState.turns[nextState.turns.length - 1];
-        activeTurn.guesses.push(action.guess);
-        activeTurn.isActive = action.cardType === 0;
+        activeTurn.guesses.push(action.value.word);
+        activeTurn.isActive = action.value.cardType === 0;
 
-        nextState.visibles[action.cardType]--;
+        nextState.visibles[action.value.cardType]--;
         break;
       }
     }
