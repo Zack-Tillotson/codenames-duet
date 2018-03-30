@@ -13,4 +13,7 @@ export default dispatch => ({
   guessWord(word) {
     dispatch(actions.guessWord(word));
   },
+  passGuessing() {
+    dispatch(actions.passGuessing());
+  },
 });

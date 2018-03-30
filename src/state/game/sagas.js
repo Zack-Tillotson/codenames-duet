@@ -36,7 +36,6 @@ function* doSubmitClue(action) {
   }));
 }
 
-
 function* doGuessWord(action) {
   const { word } = action.payload;
   const playerId = yield getPlayerId();
@@ -52,9 +51,20 @@ function* doGuessWord(action) {
   }));
 }
 
+function* doPassGuessing(action) {
+  const playerId = yield getPlayerId();
+
+  yield put(firebase.putData('game', {
+    playerId,
+    type: eventTypes.endGuess,
+    when: firebaseRef.database.ServerValue.TIMESTAMP,
+  }));
+}
+
 function* handleGameControls() {
   yield takeEvery(types.submitClue, doSubmitClue);
   yield takeEvery(types.guessWord, doGuessWord);
+  yield takeEvery(types.passGuessing, doPassGuessing);
 }
 
 export default [

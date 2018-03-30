@@ -9,11 +9,24 @@
     max-width: 70%;
   }
 
-  li {
+  .cards__card {
     min-height: 2rem;
     line-height: 2rem;
     border: solid 1px #666;
     background: white;
     font-size: .75rem;
+
+    &--spy {
+      background: #8bef8b;
+    }
+
+    &--asn {
+      background: #716e6e;
+      color: #fff;
+    }
+
+    &--bys {
+      background: #f5daa9;
+    }
   }
 }

@@ -4,7 +4,7 @@ import {eventTypes} from '../../constants';
 const phases = {
   disabled: 'disabled',
   guessing: 'guessing',
-  guessing: 'themGuessing',
+  themGuessing: 'themGuessing',
   clueing: 'clueing',
   themClueing: 'themClueing',
 };
@@ -18,15 +18,15 @@ const defaultState = {
 const controls = gameDataReceived(function(state = defaultState, actions, playerId) {
 
   const reverseActions = [...actions].reverse();
-  const lastPhaseChange = getActionOfType(reverseActions, eventTypes.giveClue, eventTypes.endGuess, eventTypes.startGame, eventTypes.guessWord);
+  let lastPhaseChange = getActionOfType(reverseActions, eventTypes.giveClue, eventTypes.endGuess, eventTypes.startGame, eventTypes.guessWord);
 
   if(!lastPhaseChange) {
     return state;
   }
 
-  // No change if found a spy
-  if(lastPhaseChange.type === eventTypes.guessWord && lastPhaseChange.cardType === 0) {
-    return state;
+  // Treat correct guesses like we're still on the latest clue
+  if(lastPhaseChange.type === eventTypes.guessWord && lastPhaseChange.value.cardType === 0) {
+    lastPhaseChange = getActionOfType(reverseActions, eventTypes.giveClue);
   }
 
   let phase = phases.clueing;
@@ -38,10 +38,13 @@ const controls = gameDataReceived(function(state = defaultState, actions, player
     phase = playerId === lastPhaseChange.playerId ? phases.clueing : phases.themClueing;
   }
 
+  const clueWord = lastPhaseChange.value ? lastPhaseChange.value.word : '';
+  const clueNum = lastPhaseChange.value ? lastPhaseChange.value.number : 0;
+
   return {
     phase,
-    clueWord: lastPhaseChange.value.word || '',
-    clueNum: lastPhaseChange.value.number,
+    clueWord,
+    clueNum,
   };
 });
 

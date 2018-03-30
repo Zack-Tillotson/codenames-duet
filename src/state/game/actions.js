@@ -43,10 +43,17 @@ function guessWord(word) {
   };
 }
 
+function passGuessing() {
+  return {
+    type: types.passGuessing,
+  };
+}
+
 export default {
   updateClueWord,
   updateClueNum,
   resetClues,
   submitClue,
   guessWord,
+  passGuessing,
 }

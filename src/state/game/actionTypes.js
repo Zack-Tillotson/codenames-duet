@@ -6,4 +6,5 @@ export default {
   resetClues: `${namespace}/resetClues`,
   submitClue: `${namespace}/submitClue`,
   guessWord: `${namespace}/guessWord`,
+  passGuessing: `${namespace}/passGuessing`,
 };
