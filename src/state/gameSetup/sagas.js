@@ -9,29 +9,52 @@ import {eventTypes} from '../constants';
 import firebase from '../../firebase/actions';
 import firebaseRef from 'firebase';
 
-const GAME_CARD_COUNT = 25;
-const CARD_SPY_COUNT = 15;
-const CARD_ASSASSIN_COUNT = 3;
-
 function* getRandomCards() {
   const allCards = (yield select(selector)).cards;
   const randomizedCards = allCards.sort(() => Math.random() - .5);
-  return randomizedCards.slice(0, GAME_CARD_COUNT);
+  return randomizedCards.slice(0, 25);
 }
 
-function* getRandomGameMap() {
-  const allIndex = new Array(GAME_CARD_COUNT)
+const randSort = () => Math.random() - .5;
+
+function* getRandomGameMaps() {
+
+  // Map 1 is random with 9 spys, 3 assassins, and 6 bystanders
+  const team1Map = {};
+
+  const allIndex = new Array(25)
     .fill(0)
     .map((_, index) => index)
-    .sort(() => Math.random() - .5);
+    .sort(randSort);
 
-  const gameMap = {};
+  allIndex.slice(0, 9).forEach(key => team1Map[key] = 0);
+  allIndex.slice(9, 12).forEach(key => team1Map[key] = 1);
+  allIndex.slice(12).forEach(key => team1Map[key] = 2);
 
-  allIndex.slice(0, CARD_SPY_COUNT).forEach(key => gameMap[key] = 0);
-  allIndex.slice(CARD_SPY_COUNT, CARD_SPY_COUNT + CARD_ASSASSIN_COUNT).forEach(key => gameMap[key] = 1);
-  allIndex.slice(CARD_SPY_COUNT + CARD_ASSASSIN_COUNT).forEach(key => gameMap[key] = 2);
+  // Map 2 is somewhat less random. Exactly 3 spys are shared with map 1.
+  // Of the 3 assassins, exactly 1 is a spy, 1 is also an assassin, and 1 a
+  // bystander
+  const team2Map = {};
 
-  return gameMap;
+  allIndex.slice(0, 3) // Shared spy
+    .forEach(key => team2Map[key] = 0);
+  allIndex.slice(3, 4) // spy -> assassin
+    .forEach(key => team2Map[key] = 1);
+  allIndex.slice(4, 9) // spy -> bystander
+    .forEach(key => team2Map[key] = 2);
+
+  team2Map[allIndex[9]] = 0; // assassin -> spy
+  team2Map[allIndex[10]] = 1; // assassin -> assassin
+  team2Map[allIndex[11]] = 2; // assassin -> bystander
+
+  allIndex.slice(12, 13) // bystander -> assassin
+    .forEach(key => team2Map[key] = 1);
+  allIndex.slice(13, 18) // bystander -> spy
+    .forEach(key => team2Map[key] = 0);
+  allIndex.slice(18) // shared bystander
+    .forEach(key => team2Map[key] = 2);
+
+  return {team1Map, team2Map};
 }
 
 function* getPlayerId() {
@@ -64,8 +87,7 @@ function* doJoinGame(action) {
 function* doStartGame(action) {
   const playerId = yield getPlayerId();
   const cards = yield getRandomCards();
-  const team1Map = yield getRandomGameMap();
-  const team2Map = yield getRandomGameMap();
+  const {team1Map, team2Map} = yield getRandomGameMaps();
 
   yield put(firebase.putData('game', {
     playerId,

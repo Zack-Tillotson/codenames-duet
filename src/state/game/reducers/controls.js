@@ -18,6 +18,13 @@ const defaultState = {
 
 const controls = gameDataReceived(function(state = defaultState, actions, playerId) {
 
+  if(actions.filter(action => action.type === 'guessWord' && action.value.cardType === 0).length === 15) {
+    return {
+      ...state,
+      phase: phases.gameOver,
+    }
+  }
+
   const reverseActions = [...actions].reverse();
   let lastPhaseChange = getActionOfType(reverseActions, eventTypes.giveClue, eventTypes.endGuess, eventTypes.startGame, eventTypes.guessWord);
 

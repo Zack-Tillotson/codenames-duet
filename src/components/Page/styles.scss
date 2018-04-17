@@ -1,4 +1,16 @@
 body {
   background: #fff;
   text-align: center;
+
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+
+  & main {
+    flex: 1;
+  }
+
+  & footer {
+    display: none;
+  }
 }

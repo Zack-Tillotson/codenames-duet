@@ -30,7 +30,7 @@ const Controls = function({children, ui: {clueWord: uiClueWord, clueNum: uiClueN
         <span>They are guessing, your clue: {clueWord} - {clueNum}</span>
       )}
       {phase === 'clueing' && (
-        <span>Give a clue: <input type="text" value={uiClueWord} onChange={handleClueWordChange} /> - <input type="number" value={uiClueNum} onChange={handleClueNumberChange} /><button onClick={handleSubmit} disabled={uiClueNum < 0 || !uiClueWord}>Submit</button></span>
+        <span>Give a clue: <br /><input type="text" value={uiClueWord} onChange={handleClueWordChange} placeholder="Your clue here" /> - <input type="number" value={uiClueNum} onChange={handleClueNumberChange} /><button onClick={handleSubmit} disabled={uiClueNum < 0 || !uiClueWord}>Submit</button></span>
       )}
       {phase === 'themClueing' && (
         "They are thinking of a clue"

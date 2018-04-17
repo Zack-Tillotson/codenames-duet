@@ -14,11 +14,11 @@ const renderGuess = guess => {
       break;
     case 1:
       src = '/assets/images/assassin.png';
-      src = 'X';
+      src = '☠';
       break;
     case 2:
       src = '/assets/images/bystander.png';
-      src = '-';
+      src = 'x';
       break;
   }
   return (
