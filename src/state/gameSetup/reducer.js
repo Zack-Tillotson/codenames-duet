@@ -21,7 +21,7 @@ const defaultStatsState = {
   haveJoined: false,
 };
 function stats(state = defaultStatsState, action, playerId) {
-  if(action.type === firebaseTypes.dataReceived && action.payload.path === 'game') {
+  if(action.type === firebaseTypes.dataReceived && action.payload.path === 'game' && !action.payload.error) {
     const newState = {...defaultStatsState};
     const {data} = action.payload;
     newState.players = Object.keys(data).filter(key => data[key].type === 'joinTeam').length;
