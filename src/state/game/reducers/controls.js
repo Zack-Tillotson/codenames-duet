@@ -7,6 +7,7 @@ const phases = {
   themGuessing: 'themGuessing',
   clueing: 'clueing',
   themClueing: 'themClueing',
+  gameOver: 'gameOver',
 };
 
 const defaultState = {
@@ -34,7 +35,9 @@ const controls = gameDataReceived(function(state = defaultState, actions, player
     phase = playerId === lastPhaseChange.playerId ? phases.themGuessing : phases.guessing;
   } else if(lastPhaseChange.type === eventTypes.endGuess) {
     phase = playerId === lastPhaseChange.playerId ? phases.clueing : phases.themClueing;
-  } else if(lastPhaseChange.type === eventTypes.guessWord) { // Was incorrect
+  } else if(lastPhaseChange.type === eventTypes.guessWord && lastPhaseChange.value.cardType === 1) { // Was assassin
+    phase = phases.gameOver;
+  } else if(lastPhaseChange.type === eventTypes.guessWord) { // cardType == 1
     phase = playerId === lastPhaseChange.playerId ? phases.clueing : phases.themClueing;
   }
 

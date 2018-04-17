@@ -16,7 +16,30 @@ function game(state = [], action) {
   return state;
 }
 
-export default combineReducers({
+const defaultStatsState = {
+  players: 0,
+  haveJoined: false,
+};
+function stats(state = defaultStatsState, action, playerId) {
+  if(action.type === firebaseTypes.dataReceived && action.payload.path === 'game') {
+    const newState = {...defaultStatsState};
+    const {data} = action.payload;
+    newState.players = Object.keys(data).filter(key => data[key].type === 'joinTeam').length;
+    newState.haveJoined = !!Object.keys(data).find(key => data[key].type === 'joinTeam' && data[key].playerId === playerId);
+    return newState;
+  }
+  return state;
+}
+
+const reducerShape = {
   cards,
   game,
-});
+  stats,
+};
+
+export default function(state = {}, action, playerId) {
+  const nextState = {};
+  Object.keys(reducerShape)
+    .forEach(key => nextState[key] = reducerShape[key](state[key], action, playerId));
+  return nextState;
+}

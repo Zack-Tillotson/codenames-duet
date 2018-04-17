@@ -1,4 +1,5 @@
 import actions from './actions';
+import setupActions from '../gameSetup/actions';
 
 export default dispatch => ({
   updateClueWord(word) {
@@ -15,5 +16,8 @@ export default dispatch => ({
   },
   passGuessing() {
     dispatch(actions.passGuessing());
+  },
+  startNewGame() {
+    dispatch(setupActions.createGame());
   },
 });

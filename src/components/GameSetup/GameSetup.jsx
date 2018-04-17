@@ -5,12 +5,15 @@ import dispatcher from 'state/gameSetup/dispatcher';
 
 import './styles';
 
-const GameSetup = function({children, createGame, joinGame, startGame}) {
+const GameSetup = function({children, stats, createGame, joinGame, startGame}) {
   return (
     <div>
-      <button onClick={createGame}>New Game</button>
-      <button onClick={joinGame}>Join Game</button>
+      <button onClick={createGame}>Reset Game</button>
       <hr />
+      {stats.players} Players Have Joined
+      {!stats.haveJoined && (
+        <button onClick={joinGame}>Join Game</button>
+      )}
       <button onClick={startGame}>Start Game</button>
     </div>
   );

@@ -45,7 +45,7 @@ const controls = gameDataReceived(function(state = defaultState, actions, player
 
       case eventTypes.guessWord: { // Might end round
         const activeTurn = nextState.turns[nextState.turns.length - 1];
-        activeTurn.guesses.push(action.value.word);
+        activeTurn.guesses.push(action.value);
         activeTurn.isActive = action.value.cardType === 0;
 
         nextState.visibles[action.value.cardType]--;

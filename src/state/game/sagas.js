@@ -20,8 +20,18 @@ function* getCards() {
 
 function* getPlayerMap(playerId) {
   const teams = (yield select(selector)).teams;
-  const playerTeam = [0, 1].find(teamIndex => teams[teamIndex].players.includes(playerId));
-  return teams[playerTeam].map;
+  const cards = yield getCards();
+  const playerTeam = [0, 1].find(teamIndex => !teams[teamIndex].players.includes(playerId));
+
+  const retMap = {};
+  teams[playerTeam].map.forEach((mapValue, index) => retMap[cards[index].word] = mapValue);
+
+  return retMap;
+}
+
+function* getCurrentPhase() {
+  const {controls} = yield select(selector);
+  return controls.phase;
 }
 
 function* doSubmitClue(action) {
@@ -37,11 +47,15 @@ function* doSubmitClue(action) {
 }
 
 function* doGuessWord(action) {
+
+  const phase = yield getCurrentPhase();
+  if(phase !== 'guessing') return;
+
   const { word } = action.payload;
   const playerId = yield getPlayerId();
   const cards = yield getCards();
   const map = yield getPlayerMap(playerId);
-  const cardType = map[cards.indexOf(word)];
+  const cardType = map[word];
 
   yield put(firebase.putData('game', {
     playerId,

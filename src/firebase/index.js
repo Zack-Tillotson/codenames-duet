@@ -10,8 +10,7 @@ function requestAuth(service, onError) {
 }
 
 function requestUnauth(service, onError) {
-  const ref = utils.connect();
-  ref.unauth();
+  return utils.auth().signOut();
 }
 
 function syncConnection(onData) {

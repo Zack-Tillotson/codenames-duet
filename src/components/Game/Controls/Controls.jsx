@@ -5,7 +5,7 @@ import dispatcher from 'state/game/dispatcher';
 
 import './styles';
 
-const Controls = function({children, ui: {clueWord: uiClueWord, clueNum: uiClueNum}, controls: {phase, clueWord, clueNum}, updateClueWord, updateClueNum, submitClue, passGuessing}) {
+const Controls = function({children, ui: {clueWord: uiClueWord, clueNum: uiClueNum}, controls: {phase, clueWord, clueNum}, updateClueWord, updateClueNum, submitClue, passGuessing, startNewGame}) {
   const handleClueWordChange = (event) => {
     updateClueWord(event.target.value);
   };
@@ -17,6 +17,9 @@ const Controls = function({children, ui: {clueWord: uiClueWord, clueNum: uiClueN
   };
   const handlePass = (event) => {
     passGuessing();
+  };
+  const handleNewGame = (event) => {
+    startNewGame();
   };
   return (
     <div className="controls">
@@ -31,6 +34,9 @@ const Controls = function({children, ui: {clueWord: uiClueWord, clueNum: uiClueN
       )}
       {phase === 'themClueing' && (
         "They are thinking of a clue"
+      )}
+      {phase === 'gameOver' && (
+        <span>Game Over! <button onClick={handleNewGame}>New Game</button></span>
       )}
     </div>
   );

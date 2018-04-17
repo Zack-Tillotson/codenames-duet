@@ -14,11 +14,20 @@ const Cards = function({children, cards, map, guessWord}) {
   const handleClick = card => guessWord(card);
   return (
     <ul className="cards">
-      {cards.map(card => (
-        <li key={card.word} onClick={handleClick.bind(this, card.word)} className={classnames('cards__card', {'cards__card--spy': cardType(map, card) === 0, 'cards__card--asn': cardType(map, card) === 1, 'cards__card--bys': cardType(map, card) === 2})}>
-          {card.word}
-        </li>
-      ))}
+      {cards.map(card => {
+        const visibleType = card.cardType >= 0 ? card.cardType : cardType(map, card);
+        const className = classnames('cards__card', {
+          'cards__card--spy': visibleType === 0,
+          'cards__card--asn': visibleType === 1,
+          'cards__card--bys': visibleType === 2,
+        });
+        return (
+          <li key={card.word} onClick={handleClick.bind(this, card.word)} className={className}>
+            {card.cardType === -1 ? card.word : ''}
+            {card.bystanders.length > 0 && 'X'}
+          </li>
+        );
+      })}
     </ul>
   );
 }

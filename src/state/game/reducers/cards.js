@@ -3,29 +3,42 @@ import {eventTypes} from '../../constants';
 
 const defaultCard = {
   word: '',
-  p1Type: -1,
-  p2Type: -1,
+  cardType: -1, // -1 default, 0 or 1 is 'end' guess, 2 is either
+  bystanders: [], // player ids of bystander guessing
 };
-
-const defaultState = [];
 
 const cards = gameDataReceived(function(state = [], actions, playerId) {
 
-  if(state.length === 0) {
-    const action = getActionOfType(actions, eventTypes.startGame);
-    if(action) {
-      return action.value.cards.map(word => ({...defaultCard, word}));
-    }
-  } else {
-    const nextState = [...cards];
-    actions.forEach(action => {
-      if(action.type !== eventTypes.guessCard) {
-        return;
-      }
-    });
-    return nextState;
+  let nextState = [...state];
+
+  const action = getActionOfType(actions, eventTypes.startGame);
+  if(action) {
+    nextState = action.value.cards.map(word => ({...defaultCard, word}));
   }
-  return state;
+
+  actions.forEach(action => {
+    if(action.type !== eventTypes.guessWord) {
+      return;
+    }
+
+    const { playerId } = action;
+    const { word, cardType } = action.value;
+
+    const wordIndex = nextState.findIndex(card => card.word === word);
+
+    const nextCard = {...nextState[wordIndex]};
+    if(cardType === 2) {
+      nextCard.bystanders = [...nextCard.bystanders, playerId];
+    }
+
+    if(cardType !== 2 || nextCard.bystanders.length > 1) {
+      nextCard.cardType = cardType;
+    }
+
+    nextState[wordIndex] = nextCard;
+  });
+
+  return nextState;
 });
 
 export default cards;

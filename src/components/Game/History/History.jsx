@@ -5,9 +5,9 @@ import dispatcher from 'state/game/dispatcher';
 
 import './styles';
 
-const renderGuess = map => guess => {
+const renderGuess = guess => {
   let src;
-  switch(map[guess]) {
+  switch(guess.cardType) {
     case 0:
       src = '/assets/images/spy.png';
       src = '✓';
@@ -22,11 +22,11 @@ const renderGuess = map => guess => {
       break;
   }
   return (
-    guess + ' ' + src
+    guess.word + ' ' + src
   );
 }
 
-const History = function({children, history: {visibles, turns}, map}) {
+const History = function({children, history: {visibles, turns}}) {
   return (
     <div className="history">
       <ul className="card-totals">
@@ -46,7 +46,7 @@ const History = function({children, history: {visibles, turns}, map}) {
             )}
             {turn.guesses && (
               <ol className="guesses">
-                {turn.guesses.map(renderGuess(map))}
+                {turn.guesses.map(renderGuess)}
               </ol>
             )}
           </li>
